@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Resultados de búsqueda</title>
+</head>
+<body>
+    <h1>Resultados de búsqueda</h1>
+    <form method="GET" action="/search">
+        <label for="theme">Selecciona un tema:</label>
+        <select id="theme" name="theme">
+            <option value="">Todos los temas</option>
+            <option value="Fantasy">Fantasía</option>
+            <option value="Poem">Poema</option>
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+    {% if documents_array %}
+        <ul>
+        {% for document in documents_array %}
+            <li>Title: {{ document.title }}, Author: {{ document.author }}, Price: {{ document.price }}$</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron resultados</p>
+    {% endif %}
+</body>
+</html>

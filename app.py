@@ -1,9 +1,15 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from starlette.middleware.cors import CORSMiddleware
 
 from classes.document import Document
 from logic.doc_controller import DocumentController
+
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+import json
+templates = Jinja2Templates(directory="templates")
+
 app = FastAPI()
 doc_object = DocumentController()
 origins = ["*"]
@@ -16,6 +22,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+with open('./data/storage_doc.json', 'r', encoding='utf-8') as f:
+    json_data = f.read()
+
+
+parsed_json = json.loads(json_data)
+output_json = json.dumps(parsed_json, ensure_ascii=False)
+documents_array = parsed_json['documents']
+
+resultados = []
+for resultado in documents_array:
+    if resultado['topic'] == 'fantasy':
+        print(resultado['topic'])
+
 @app.get("/")
 def read_root():
     return {"200": "Welcome To Document Managment System Restful API"}
@@ -24,6 +43,17 @@ def read_root():
 @app.get("/api/document")
 async def root():
     return doc_object.show()
+
+#Search by topic route
+@app.get("/search", response_class=HTMLResponse)
+async def search_documents(request: Request, theme: str = ''):
+    results = []
+    for document in documents_array:
+        if not theme or theme == document['topic']:
+            if theme.lower() in document['topic'].lower():
+                results.append(document)
+    return templates.TemplateResponse("search_results.html", {"request": request, "documents_array": results})
+
 
 
 @app.post("/api/document")
