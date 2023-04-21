@@ -151,10 +151,9 @@ class Document(object):
         :return: the string representation of the object
         :rtype: str
         """
-        return (f'***Printing book {self.id} ***' 
-                f'\nId: {self.id} \nAuthor: {self.author} \nTitle: {self.title} '
-                f'\nPrice: {self.price}$ \nTopic: {self.topic} \nLanguage: {self.language}\n')
-    
+        # return in JSON format
+        return {"id": self.id, "author": self.author, "title": self.title, "price": self.price, "topic": self.topic, "language": self.language}
+
     def __eq__(self, other: object) -> bool:
         """
         Method that compares two objects
@@ -166,3 +165,8 @@ class Document(object):
         if isinstance(other, Document):
             return self.id == other.id and self.author == other.author and self.title == other.title and self.price == other.price and self.topic == other.topic and self.language == other.language
         return False
+
+if __name__ == '__main__':
+    
+    test_doc = Document(5, 'Gabriel García', '100 Años De Soledad', 299, 'Novel', 'esp')
+    print(test_doc)
