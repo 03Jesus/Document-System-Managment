@@ -2,16 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Resultados de búsqueda</title>
+    <title>Document Managment System</title>
 </head>
 <body>
     <h1>Resultados de búsqueda</h1>
     <form method="GET" action="/search">
-        <label for="theme">Selecciona un tema:</label>
+        <label for="theme">Selecciona un tema para filtrar:</label>
         <select id="theme" name="theme">
             <option value="">Todos los temas</option>
-            <option value="Fantasy">Fantasía</option>
-            <option value="Poem">Poema</option>
+            {% for theme in themes %}
+                <option value="{{ theme }}">{{ theme }}</option>
+            {% endfor %}
         </select>
         <button type="submit">Buscar</button>
     </form>

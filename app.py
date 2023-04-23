@@ -8,6 +8,7 @@ from logic.doc_controller import DocumentController
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import json
+from typing import List
 templates = Jinja2Templates(directory="templates")
 
 app = FastAPI()
@@ -48,13 +49,18 @@ async def root():
 @app.get("/search", response_class=HTMLResponse)
 async def search_documents(request: Request, theme: str = ''):
     results = []
+    themes = get_all_themes()
     for document in documents_array:
         if not theme or theme == document['topic']:
             if theme.lower() in document['topic'].lower():
                 results.append(document)
-    return templates.TemplateResponse("search_results.html", {"request": request, "documents_array": results})
+    return templates.TemplateResponse("search_results.html", {"request": request, "documents_array": results, "themes": themes})
 
-
+def get_all_themes() -> List[str]:
+    themes = set()
+    for document in documents_array:
+        themes.add(document['topic'])
+    return sorted(list(themes))
 
 @app.post("/api/document")
 async def add(id: int, author: str, title: str, price: float, topic: str, language: str):
