@@ -1,4 +1,5 @@
 from classes.edoc import Edoc
+from datetime import date
 
 class AudioBook(Edoc):
     """
@@ -7,7 +8,7 @@ class AudioBook(Edoc):
     def __init__(self, id: int = 0, author: str = 'author',
                 title: str = 'title', price: float = 0.1,
                 topic: str = 'topic', language: str = 'esp',
-                pub_date: str = 'pub_date', size: float = 0.1, doi: str = 'doi',
+                pub_date: date = date.today(), size: float = 0.1, doi: str = 'doi',
                 hours: int = 1, minutes: int = 1, seconds: int = 1, 
                 synopsis: str = 'synopsis') -> object:
         """
@@ -39,11 +40,68 @@ class AudioBook(Edoc):
         :param synopsis: the synopsis of the audio book
         :type synopsis: str
         """
-        super().__init__(id, author, title, price, topic, language, pub_date, size, doi)
+        super().__init__(id, author, title, price, topic, language)
+        self.__pub_date = pub_date
+        self.__size = size
+        self.__doi = doi
         self.__hours = hours
         self.__minutes = minutes
         self.__seconds = seconds
         self.__synopsis = synopsis
+
+    @property
+    def pub_date(self) -> date:
+        """
+        Getter of the publication date
+        :return: the publication date of the audio book
+        :rtype: date
+        """
+        return self.__pub_date
+    
+    @pub_date.setter
+    def pub_date(self, pub_date: date) -> None:
+        """
+        Setter of the publication date
+        :param pub_date: the publication date of the audio book
+        :type pub_date: date
+        """
+        self.__pub_date = pub_date
+
+    @property
+    def size(self) -> float:
+        """
+        Getter of the size
+        :return: the size of the audio book
+        :rtype: float
+        """
+        return self.__size
+    
+    @size.setter
+    def size(self, size: float) -> None:
+        """
+        Setter of the size
+        :param size: the size of the audio book
+        :type size: float
+        """
+        self.__size = size
+
+    @property
+    def doi(self) -> str:
+        """
+        Getter of the doi
+        :return: the doi of the audio book
+        :rtype: str
+        """
+        return self.__doi
+    
+    @doi.setter
+    def doi(self, doi: str) -> None:
+        """
+        Setter of the doi
+        :param doi: the doi of the audio book
+        :type doi: str
+        """
+        self.__doi = doi
 
     @property
     def hours(self) -> int:
@@ -123,7 +181,8 @@ class AudioBook(Edoc):
         :return: the string representation of the class
         :rtype: str
         """
-        return f'AudioBook: {self.id}, {self.author}, {self.title}, {self.price}, {self.topic}, {self.language}, {self.pub_date}, {self.size}, {self.doi}, {self.hours}, {self.minutes}, {self.seconds}, {self.synopsis}'
+        #return in JSON format
+        return {"id": self.id, "author": self.author, "title": self.title, "price": self.price, "topic": self.topic, "language": self.language, "pub_date": self.pub_date, "size": self.size, "doi": self.doi, "hours": self.hours, "minutes": self.minutes, "seconds": self.seconds, "synopsis": self.synopsis}    
     
     def __eq__(self, other: object) -> bool:
         """

@@ -32,11 +32,30 @@ class Book(Fdoc):
         :param presentation: the presentation of the book
         :type presentation: str
         """
-        super().__init__(id, author, title, price, topic, language, publisher)
+        super().__init__(id, author, title, price, topic, language)
+        self.publisher = publisher
         self.__editor = editor
         self.__pages = pages
         self.__synopsis = synopsis
         self.__presentation = presentation
+
+    @property
+    def publisher(self) -> str:
+        """
+        Getter of the publisher
+        :return: the publisher of the book
+        :rtype: str
+        """
+        return self.__publisher
+    
+    @publisher.setter
+    def publisher(self, publisher: str) -> None:
+        """
+        Setter of the publisher
+        :param publisher: the publisher of the book
+        :type publisher: str
+        """
+        self.__publisher = publisher
 
     @property
     def editor(self) -> str:
@@ -116,7 +135,20 @@ class Book(Fdoc):
         :return: the book
         :rtype: str
         """
-        return super().__str__() + f'Editor: {self.editor}, Pages: {self.pages}, Synopsis: {self.synopsis}, Presentation: {self.presentation}'
+        #return in JSON format
+        return{
+        "id": self.id,
+        "author": self.author, 
+        "title": self.title, 
+        "price": self.price, 
+        "topic": self.topic, 
+        "language": self.language, 
+        "publisher": self.publisher, 
+        "editor": self.editor, 
+        "pages": self.pages, 
+        "synopsis": self.synopsis, 
+        "presentation": self.presentation
+        }    
     
     def __eq__ (self, other: object) -> bool:
         """

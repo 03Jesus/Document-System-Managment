@@ -1,4 +1,5 @@
 from classes.edoc import Edoc
+from datetime import date
 
 class InvBook(Edoc):
     """
@@ -7,7 +8,7 @@ class InvBook(Edoc):
     def __init__(self, id: int = 0, author: str = 'author',
                 title: str = 'title', price: float = 0.1,
                 topic: str = 'topic', language: str = 'esp',
-                pub_date: str = 'pub_date', size: float = 0.1, doi: str = 'doi',
+                pub_date: date = date.today(), size: float = 0.1, doi: str = 'doi',
                 pages: int = 1, abstract: str = 'abstract') -> object:
         """
         Constructor of the class
@@ -34,10 +35,67 @@ class InvBook(Edoc):
         :param abstract: the abstract of the InvBook
         :type abstract: str
         """
-        super().__init__(id, author, title, price, topic, language, pub_date, size, doi, pages, abstract)
+        super().__init__(id, author, title, price, topic, language)
+        self.pub_date = pub_date
+        self.size = size
+        self.doi = doi
         self.__pages = pages
         self.__abstract = abstract
     
+    @property
+    def pub_date(self) -> date:
+        """
+        Getter of the publication date
+        :return: the publication date of the book
+        :rtype: date
+        """
+        return self.__pub_date
+    
+    @pub_date.setter
+    def pub_date(self, pub_date: date) -> None:
+        """
+        Setter of the publication date
+        :param pub_date: the publication date of the book
+        :type pub_date: date
+        """
+        self.__pub_date = pub_date
+
+    @property
+    def size(self) -> float:
+        """
+        Getter of the size
+        :return: the size of the book
+        :rtype: float
+        """
+        return self.__size
+    
+    @size.setter
+    def size(self, size: float) -> None:
+        """
+        Setter of the size
+        :param size: the size of the book
+        :type size: float
+        """
+        self.__size = size
+
+    @property
+    def doi(self) -> str:
+        """
+        Getter of the doi
+        :return: the doi of the book
+        :rtype: str
+        """
+        return self.__doi
+    
+    @doi.setter
+    def doi(self, doi: str) -> None:
+        """
+        Setter of the doi
+        :param doi: the doi of the book
+        :type doi: str
+        """
+        self.__doi = doi
+
     @property
     def pages(self) -> int:
         """
@@ -80,8 +138,20 @@ class InvBook(Edoc):
         :return: the string representation of the object
         :rtype: str
         """
-        return f'InvBook: {self.id}, {self.author}, {self.title}, {self.price}, {self.topic}, {self.language}, {self.pub_date}, {self.size}, {self.doi}, {self.pages}, {self.abstract}'
-    
+        #return in JSON format PEP8 (No more than 79 characters per line)
+        return{
+        "id": self.id,
+        "author": self.author,
+        "title": self.title,
+        "price": self.price,
+        "topic": self.topic,
+        "language": self.language,
+        "pub_date": self.pub_date,
+        "size": self.size,
+        "doi": self.doi,
+        "pages": self.pages,
+        "abstract": self.abstract
+        }    
     def __eq__(self, other: object) -> bool:
         """
         Method that compares two objects
