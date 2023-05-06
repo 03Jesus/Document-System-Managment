@@ -7,9 +7,9 @@
 <body>
     <h1>Resultados de búsqueda</h1>
     <form method="GET" action="/search">
-        <label for="theme">Selecciona un tema para filtrar:</label>
+        <label for="theme">Selecciona un tipo de documento para filtrar:</label>
         <select id="theme" name="theme">
-            <option value="">Todos los temas</option>
+            <option value="">Todos los documentos</option>
             {% for theme in themes %}
                 <option value="{{ theme }}">{{ theme }}</option>
             {% endfor %}
@@ -19,7 +19,7 @@
     {% if documents_array %}
         <ul>
         {% for document in documents_array %}
-            <li>Title: {{ document.title }}, Author: {{ document.author }}, Price: {{ document.price }}$</li>
+            <li>Title: {{ document[1] }}, Author: {{ document[2] }}, Price: {{ document[3] }}$</li>
         {% endfor %}
         </ul>
     {% else %}

@@ -1,10 +1,17 @@
+import json
+from datetime import date
 class Document(object):
     """
     A class that represents a document
     """
-    def __init__(self, id: int = 0, author: str = 'author',
-                title: str = 'title', price: float = 0.1,
-                topic: str = 'topic', language: str = 'esp') -> object:
+    def __init__(self,
+                 id: int = 0,
+                 author: str = 'author',
+                 title: str = 'title',
+                 price: float = 0.1,
+                 topic: str = 'topic',
+                 language: str = 'lang',
+                 pub_date: date = date.today()) -> object:
         """
         Constructor of the class
         :param id: the id of the document
@@ -15,22 +22,24 @@ class Document(object):
         :type title: str
         :param price: the price of the document
         :type price: float
-        :param topi: the topic of the document
-        :type topi: str
+        :param topic: the topic of the document
+        :type topic: str
         :param language: the language of the document
         :type language: str
         """
+
         self.__id = id
         self.__author = author
         self.__title = title
         self.__price = price
         self.__topic = topic
         self.__language = language
-    
+        self.__pub_date = pub_date
+
     @property
     def id(self) -> int:
         """
-        Getter of the id
+        Getter for the id of the document
         :return: the id of the document
         :rtype: int
         """
@@ -39,16 +48,17 @@ class Document(object):
     @id.setter
     def id(self, id: int) -> None:
         """
-        Setter of the id
-        :param id: the id of the document
+        Setter for the id of the document
+        :param id: the new id of the document
         :type id: int
+        :return: None
         """
         self.__id = id
 
     @property
     def author(self) -> str:
         """
-        Getter of the author
+        Getter for the author of the document
         :return: the author of the document
         :rtype: str
         """
@@ -57,16 +67,17 @@ class Document(object):
     @author.setter
     def author(self, author: str) -> None:
         """
-        Setter of the author
-        :param author: the author of the document
+        Setter for the author of the document
+        :param author: the new author of the document
         :type author: str
+        :return: None
         """
         self.__author = author
 
     @property
     def title(self) -> str:
         """
-        Getter of the title
+        Getter for the title of the document
         :return: the title of the document
         :rtype: str
         """
@@ -75,16 +86,17 @@ class Document(object):
     @title.setter
     def title(self, title: str) -> None:
         """
-        Setter of the title
-        :param title: the title of the document
+        Setter for the title of the document
+        :param title: the new title of the document
         :type title: str
+        :return: None
         """
         self.__title = title
 
     @property
     def price(self) -> float:
         """
-        Getter of the price
+        Getter for the price of the document
         :return: the price of the document
         :rtype: float
         """
@@ -93,16 +105,17 @@ class Document(object):
     @price.setter
     def price(self, price: float) -> None:
         """
-        Setter of the price
-        :param price: the price of the document
+        Setter for the price of the document
+        :param price: the new price of the document
         :type price: float
+        :return: None
         """
         self.__price = price
 
     @property
     def topic(self) -> str:
         """
-        Getter of the topic
+        Getter for the topic of the document
         :return: the topic of the document
         :rtype: str
         """
@@ -111,16 +124,17 @@ class Document(object):
     @topic.setter
     def topic(self, topic: str) -> None:
         """
-        Setter of the topic
-        :param topic: the topic of the document
+        Setter for the topic of the document
+        :param topic: the new topic of the document
         :type topic: str
+        :return: None
         """
         self.__topic = topic
 
     @property
     def language(self) -> str:
         """
-        Getter of the language
+        Getter for the language of the document
         :return: the language of the document
         :rtype: str
         """
@@ -129,44 +143,77 @@ class Document(object):
     @language.setter
     def language(self, language: str) -> None:
         """
-        Setter of the language
-        :param language: the language of the document
+        Setter for the language of the document
+        :param language: the new language of the document
         :type language: str
+        :return: None
         """
         self.__language = language
+
+    @property
+    def pub_date(self) -> date:
+        """
+        Getter for the publication date of the document
+        :return: the publication date of the document
+        :rtype: date
+        """
+        return self.__pub_date
     
-    def buy(self, quantity: int) -> float:
+    @pub_date.setter
+    def pub_date(self, pub_date: date) -> None:
         """
-        Method that calculates the total price of a document
-        :param quantity: the quantity of documents
-        :type quantity: int
-        :return: the total price of the documents
-        :rtype: float
+        Setter for the publication date of the document
+        :param pub_date: the new publication date of the document
+        :type pub_date: date
+        :return: None
         """
-        return self.price * quantity
+        self.__pub_date = pub_date
 
     def __str__(self) -> str:
         """
-        Method that returns a string representation of the object
-        :return: the string representation of the object
+        String representation of the document
+        :return: the string representation of the document
         :rtype: str
         """
-        # return in JSON format
-        return {"id": self.id, "author": self.author, "title": self.title, "price": self.price, "topic": self.topic, "language": self.language}
-
+        return {"id": self.__id,
+                "author": self.__author,
+                "title": self.__title,
+                "price": self.__price,
+                "topic": self.__topic,
+                "language": self.__language,
+                "pub_date": self.__pub_date.strftime("%Y/%m/%d")}
+    
     def __eq__(self, other: object) -> bool:
         """
-        Method that compares two objects
-        :param other: the other object
-        :type other: object
-        :return: True if the objects are equal, False otherwise
+        Overriding the equality operator
+        :param other: the other document to compare to
+        :type other: Document
+        :return: True if the documents are equal, False otherwise
         :rtype: bool
         """
         if isinstance(other, Document):
-            return self.id == other.id and self.author == other.author and self.title == other.title and self.price == other.price and self.topic == other.topic and self.language == other.language
+            return self.id == other.id and \
+                   self.author == other.author and \
+                   self.title == other.title and \
+                   self.price == other.price and \
+                   self.topic == other.topic and \
+                   self.language == other.language and \
+                   self.pub_date == other.pub_date
         return False
-
-if __name__ == '__main__':
     
-    test_doc = Document(5, 'Gabriel García', '100 Años De Soledad', 299, 'Novel', 'esp')
-    print(test_doc)
+if __name__ == '__main__':
+    doc = Document(1, 'author', 'title', 0.1, 'topic', 'lang', date.today())
+    assert doc.id == 1
+    assert doc.author == 'author'
+    assert doc.title == 'title'
+    assert doc.price == 0.1
+    assert doc.topic == 'topic'
+    assert doc.language == 'lang'
+    assert doc.pub_date == date.today()
+
+    doc2 = Document(2, 'author2', 'title2', 0.2, 'topic2', 'lang2', date.today())
+    doc3 = Document(1, 'author', 'title', 0.1, 'topic', 'lang', date.today())
+    print(doc.__str__())
+
+    print("The documents are equal") if doc.__eq__(doc2) else print("The documents are not equal")
+        

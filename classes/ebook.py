@@ -1,110 +1,60 @@
-from classes.edoc import Edoc
+from classes.edocument import EDocument
 from datetime import date
 
-class Ebook(Edoc):
+class Ebook(EDocument):
     """
-    A class that represents an electronic book
+    A class that represents an ebook
     """
-    def __init__(self, id: int = 0, author: str = 'author',
-                title: str = 'title', price: float = 0.1,
-                topic: str = 'topic', language: str = 'esp',
-                pub_date: date = date.today(), size: float = 0.1, doi: str = 'doi',
-                editor: str = 'editor', pages: int = 1, synopsis: str = 'synopsis') -> object:
+    def __init__(self,
+                 id: int = 0,
+                 author: str = 'author',
+                 title: str = 'title',
+                 price: float = 0.1,
+                 topic: str = 'topic',
+                 language: str = 'lang',
+                 pub_date: date = date.today(),
+                 size: float = 0.1,
+                 doi: str = 'doi',
+                 editor: str = 'editor',
+                 pages: int = 1,
+                 synopsis: str = 'synopsis') -> object:
         """
         Constructor of the class
-        :param id: the id of the electronic book
+        :param id: the id of the Ebook
         :type id: int
-        :param author: the author of the electronic book
+        :param author: the author of the Ebook
         :type author: str
-        :param title: the title of the electronic book
+        :param title: the title of the Ebook
         :type title: str
-        :param price: the price of the electronic book
+        :param price: the price of the Ebook
         :type price: float
-        :param topi: the topic of the electronic book
-        :type topi: str
-        :param language: the language of the electronic book
+        :param topic: the topic of the Ebook
+        :type topic: str
+        :param language: the language of the Ebook
         :type language: str
-        :param pub_date: the publication date of the electronic book
-        :type pub_date: str
-        :param size: the size of the electronic book
+        :param pub_date: the publication date of the Ebook
+        :type pub_date: date
+        :param size: the size of the Ebook
         :type size: float
-        :param doi: the doi of the electronic book
+        :param doi: the doi of the Ebook
         :type doi: str
-        :param editor: the editor of the electronic book
+        :param editor: the editor of the Ebook
         :type editor: str
-        :param pages: the number of pages of the electronic book
+        :param pages: the number of pages of the Ebook
         :type pages: int
-        :param synopsis: the synopsis of the electronic book
+        :param synopsis: the synopsis of the Ebook
         :type synopsis: str
         """
-        super().__init__(id, author, title, price, topic, language)
-        self.pub_date = pub_date
-        self.size = size
-        self.doi = doi
+        super().__init__(id, author, title, price, topic, language, pub_date, size, doi)
         self.__editor = editor
         self.__pages = pages
         self.__synopsis = synopsis
-    
-    @property
-    def pub_date(self) -> date:
-        """
-        Getter of the publication date
-        :return: the publication date of the book
-        :rtype: date
-        """
-        return self.__pub_date
-    
-    @pub_date.setter
-    def pub_date(self, pub_date: date) -> None:
-        """
-        Setter of the publication date
-        :param pub_date: the publication date of the book
-        :type pub_date: date
-        """
-        self.__pub_date = pub_date
-
-
-    @property
-    def size(self) -> float:
-        """
-        Getter of the size
-        :return: the size of the book
-        :rtype: float
-        """
-        return self.__size
-    
-    @size.setter
-    def size(self, size: float) -> None:
-        """
-        Setter of the size
-        :param size: the size of the book
-        :type size: float
-        """
-        self.__size = size
-
-    @property
-    def doi(self) -> str:
-        """
-        Getter of the doi
-        :return: the doi of the book
-        :rtype: str
-        """
-        return self.__doi
-    
-    @doi.setter
-    def doi(self, doi: str) -> None:
-        """
-        Setter of the doi
-        :param doi: the doi of the book
-        :type doi: str
-        """
-        self.__doi = doi
 
     @property
     def editor(self) -> str:
         """
-        Getter of the editor
-        :return: the editor of the book
+        Getter for the editor of the Ebook
+        :return: the editor of the Ebook
         :rtype: str
         """
         return self.__editor
@@ -112,17 +62,17 @@ class Ebook(Edoc):
     @editor.setter
     def editor(self, editor: str) -> None:
         """
-        Setter of the editor
-        :param editor: the editor of the book
+        Setter for the editor of the Ebook
+        :param editor: the editor of the Ebook
         :type editor: str
         """
         self.__editor = editor
-    
+
     @property
     def pages(self) -> int:
         """
-        Getter of the number of pages
-        :return: the number of pages of the book
+        Getter for the number of pages of the Ebook
+        :return: the number of pages of the Ebook
         :rtype: int
         """
         return self.__pages
@@ -130,8 +80,8 @@ class Ebook(Edoc):
     @pages.setter
     def pages(self, pages: int) -> None:
         """
-        Setter of the number of pages
-        :param pages: the number of pages of the book
+        Setter for the number of pages of the Ebook
+        :param pages: the number of pages of the Ebook
         :type pages: int
         """
         self.__pages = pages
@@ -139,8 +89,8 @@ class Ebook(Edoc):
     @property
     def synopsis(self) -> str:
         """
-        Getter of the synopsis
-        :return: the synopsis of the book
+        Getter for the synopsis of the Ebook
+        :return: the synopsis of the Ebook
         :rtype: str
         """
         return self.__synopsis
@@ -148,28 +98,71 @@ class Ebook(Edoc):
     @synopsis.setter
     def synopsis(self, synopsis: str) -> None:
         """
-        Setter of the synopsis
-        :param synopsis: the synopsis of the book
+        Setter for the synopsis of the Ebook
+        :param synopsis: the synopsis of the Ebook
         :type synopsis: str
         """
         self.__synopsis = synopsis
 
     def __str__(self) -> str:
         """
-        Method to print the object
-        :return: the string to print
+        String representation of the Ebook
+        :return: the string representation of the Ebook
         :rtype: str
         """
-        #return in JSON format
-        return {"id": self.id, "author": self.author, "title": self.title, "price": self.price, "topic": self.topic, "language": self.language, "pub_date": self.pub_date, "size": self.size, "doi": self.doi, "editor": self.editor, "pages": self.pages, "synopsis": self.synopsis}    
+        return {"id": self.id,
+                "author": self.author,
+                "title": self.title,
+                "price": self.price,
+                "topic": self.topic,
+                "language": self.language,
+                "pub_date": self.pub_date.strftime("%Y/%m/%d"),
+                "size": self.size,
+                "doi": self.doi,
+                "editor": self.editor,
+                "pages": self.pages,
+                "synopsis": self.synopsis}
+
     def __eq__(self, other: object) -> bool:
         """
-        Method to compare two objects
-        :param other: the other object to compare
+        Equality operator
+        :param other: the other object
         :type other: object
         :return: True if the objects are equal, False otherwise
         :rtype: bool
         """
         if isinstance(other, Ebook):
-            return super().__eq__(other) and self.__editor == other.editor and self.__pages == other.pages and self.__synopsis == other.synopsis
+            return self.id == other.id and \
+                   self.author == other.author and \
+                   self.title == other.title and \
+                   self.price == other.price and \
+                   self.topic == other.topic and \
+                   self.language == other.language and \
+                   self.pub_date == other.pub_date and \
+                   self.size == other.size and \
+                   self.doi == other.doi and \
+                   self.editor == other.editor and \
+                   self.pages == other.pages and \
+                   self.synopsis == other.synopsis
         return False
+
+if __name__ == "__main__":
+    ebook = Ebook(1, 'author', 'title', 0.1, 'topic', 'lang', date.today(), 0.1, 'doi', 'editor', 1, 'synopsis')
+    assert ebook.id == 1
+    assert ebook.author == 'author'
+    assert ebook.title == 'title'
+    assert ebook.price == 0.1
+    assert ebook.topic == 'topic'
+    assert ebook.language == 'lang'
+    assert ebook.pub_date == date.today()
+    assert ebook.size == 0.1
+    assert ebook.doi == 'doi'
+    assert ebook.editor == 'editor'
+    assert ebook.pages == 1
+    assert ebook.synopsis == 'synopsis'
+
+    print(ebook.__str__())
+
+    ebook2 = Ebook(1, 'author', 'title', 0.1, 'topic', 'lang', date.today(), 0.1, 'doi', 'editor', 1, 'synopsis')
+
+    print("ebook == ebook2") if ebook == ebook2 else print("ebook != ebook2")

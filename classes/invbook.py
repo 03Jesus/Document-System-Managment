@@ -1,166 +1,143 @@
-from classes.edoc import Edoc
+from classes.edocument import EDocument
 from datetime import date
 
-class InvBook(Edoc):
+class InvBook(EDocument):
     """
-    A class that represents an inventory book
+    A class that represents an investigation book
     """
-    def __init__(self, id: int = 0, author: str = 'author',
-                title: str = 'title', price: float = 0.1,
-                topic: str = 'topic', language: str = 'esp',
-                pub_date: date = date.today(), size: float = 0.1, doi: str = 'doi',
-                pages: int = 1, abstract: str = 'abstract') -> object:
+    def __init__(self,
+                 id: int = 0,
+                 author: str = 'author',
+                 title: str = 'title',
+                 price: float = 0.1,
+                 topic: str = 'topic',
+                 language: str = 'lang',
+                 pub_date: date = date.today(),
+                 size: float = 0.1,
+                 doi: str = 'doi',
+                 pages: int = 1,
+                 abstract: str = 'abstract') -> object:
         """
         Constructor of the class
-        :param id: the id of the InvBook
+        :param id: the id of the investigation book
         :type id: int
-        :param author: the author of the InvBook
+        :param author: the author of the investigation book
         :type author: str
-        :param title: the title of the InvBook
+        :param title: the title of the investigation book
         :type title: str
-        :param price: the price of the InvBook
+        :param price: the price of the investigation book
         :type price: float
-        :param topi: the topic of the InvBook
-        :type topi: str
-        :param language: the language of the InvBook
+        :param topic: the topic of the investigation book
+        :type topic: str
+        :param language: the language of the investigation book
         :type language: str
-        :param pub_date: the publication date of the InvBook
-        :type pub_date: str
-        :param size: the size of the InvBook
+        :param pub_date: the publication date of the investigation book
+        :type pub_date: date
+        :param size: the size of the investigation book
         :type size: float
-        :param doi: the doi of the InvBook
+        :param doi: the doi of the investigation book
         :type doi: str
-        :param pages: the number of pages of the InvBook
+        :param pages: the number of pages of the investigation book
         :type pages: int
-        :param abstract: the abstract of the InvBook
+        :param abstract: the abstract of the investigation book
         :type abstract: str
         """
-        super().__init__(id, author, title, price, topic, language)
-        self.pub_date = pub_date
-        self.size = size
-        self.doi = doi
+        super().__init__(id, author, title, price, topic, language, pub_date, size, doi)
         self.__pages = pages
         self.__abstract = abstract
-    
-    @property
-    def pub_date(self) -> date:
-        """
-        Getter of the publication date
-        :return: the publication date of the book
-        :rtype: date
-        """
-        return self.__pub_date
-    
-    @pub_date.setter
-    def pub_date(self, pub_date: date) -> None:
-        """
-        Setter of the publication date
-        :param pub_date: the publication date of the book
-        :type pub_date: date
-        """
-        self.__pub_date = pub_date
-
-    @property
-    def size(self) -> float:
-        """
-        Getter of the size
-        :return: the size of the book
-        :rtype: float
-        """
-        return self.__size
-    
-    @size.setter
-    def size(self, size: float) -> None:
-        """
-        Setter of the size
-        :param size: the size of the book
-        :type size: float
-        """
-        self.__size = size
-
-    @property
-    def doi(self) -> str:
-        """
-        Getter of the doi
-        :return: the doi of the book
-        :rtype: str
-        """
-        return self.__doi
-    
-    @doi.setter
-    def doi(self, doi: str) -> None:
-        """
-        Setter of the doi
-        :param doi: the doi of the book
-        :type doi: str
-        """
-        self.__doi = doi
 
     @property
     def pages(self) -> int:
         """
-        Getter of the pages
-        :return: the pages of the book
+        Getter for the number of pages of the investigation book
+        :return: the number of pages of the investigation book
         :rtype: int
         """
         return self.__pages
     
     @pages.setter
-    def pages(self, pages: int) -> None:
+    def pages(self, pages: int):
         """
-        Setter of the pages
-        :param pages: the pages of the book
+        Setter for the number of pages of the investigation book
+        :param pages: the number of pages of the investigation book
         :type pages: int
         """
         self.__pages = pages
-
+    
     @property
     def abstract(self) -> str:
         """
-        Getter of the abstract
-        :return: the abstract of the book
+        Getter for the abstract of the investigation book
+        :return: the abstract of the investigation book
         :rtype: str
         """
         return self.__abstract
     
     @abstract.setter
-    def abstract(self, abstract: str) -> None:
+    def abstract(self, abstract: str):
         """
-        Setter of the abstract
-        :param abstract: the abstract of the book
+        Setter for the abstract of the investigation book
+        :param abstract: the abstract of the investigation book
         :type abstract: str
         """
         self.__abstract = abstract
 
     def __str__(self) -> str:
         """
-        Method that represents the object as a string
-        :return: the string representation of the object
+        String representation of the investigation book
+        :return: the string representation of the investigation book
         :rtype: str
         """
-        #return in JSON format PEP8 (No more than 79 characters per line)
-        return{
-        "id": self.id,
-        "author": self.author,
-        "title": self.title,
-        "price": self.price,
-        "topic": self.topic,
-        "language": self.language,
-        "pub_date": self.pub_date,
-        "size": self.size,
-        "doi": self.doi,
-        "pages": self.pages,
-        "abstract": self.abstract
-        }    
+        return {"id": self.id,
+                "author": self.author,
+                "title": self.title,
+                "price": self.price,
+                "topic": self.topic,
+                "language": self.language,
+                "pub_date": self.pub_date.strftime("%Y/%m/%d"),
+                "size": self.size,
+                "doi": self.doi,
+                "pages": self.pages,
+                "abstract": self.abstract}
+    
     def __eq__(self, other: object) -> bool:
         """
-        Method that compares two objects
-        :param other: the object to compare
+        Equality operator
+        :param other: the other object
         :type other: object
         :return: True if the objects are equal, False otherwise
         :rtype: bool
         """
         if isinstance(other, InvBook):
-            return self.id == other.id and self.author == other.author and self.title == other.title and self.price == other.price and self.topic == other.topic and self.language == other.language and self.pub_date == other.pub_date and self.size == other.size and self.doi == other.doi and self.pages == other.pages and self.abstract == other.abstract
-        else:
-            return False
+            return self.id == other.id and \
+                   self.author == other.author and \
+                   self.title == other.title and \
+                   self.price == other.price and \
+                   self.topic == other.topic and \
+                   self.language == other.language and \
+                   self.pub_date == other.pub_date and \
+                   self.size == other.size and \
+                   self.doi == other.doi and \
+                   self.pages == other.pages and \
+                   self.abstract == other.abstract
+        return False
+
+if __name__ == "__main__":
+    invbook = InvBook(1, 'author', 'title', 0.1, 'topic', 'lang', date.today(), 0.1, 'doi', 1, 'abstract')
+    assert invbook.id == 1
+    assert invbook.author == 'author'
+    assert invbook.title == 'title'
+    assert invbook.price == 0.1
+    assert invbook.topic == 'topic'
+    assert invbook.language == 'lang'
+    assert invbook.pub_date == date.today()
+    assert invbook.size == 0.1
+    assert invbook.doi == 'doi'
+    assert invbook.pages == 1
+    assert invbook.abstract == 'abstract'
+
+    print(invbook.__str__())
+
+    invbook2 = InvBook(1, 'author', 'title', 0.1, 'topic', 'lang', date.today(), 0.1, 'doi', 1, 'abstract')
+
+    print("invbook == invbook2") if invbook == invbook2 else print("invbook != invbook2")

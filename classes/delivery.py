@@ -1,95 +1,125 @@
-from classes.person import Person
+import json
+from person import Person
+from datetime import date
+
 
 class Delivery (object):
     """
-    Class that represents a delivery
+    A class that represents a Delivery
     """
 
-    def __init__ (self, buyer: Person = Person(), deliver_id: int = 0, date: str = 'date') -> object:
+    def __init__(self,
+                 id: int = 0,
+                 buyer: Person = Person(),
+                 date: date = date.today()) -> object:
         """
         Constructor of the class
-        :param buyer: the buyer of the delivery
-        :type buyer: Person
-        :param deliver_id: the id of the delivery
-        :type deliver_id: int
-        :param date: the date of the delivery
+        :param id: the id of the Delivery
+        :type id: int
+        :param provider: the provider of the Delivery
+        :type provider: Person
+        :param date: the date of the Delivery
         :type date: str
+        :param time: the time of the Delivery
+        :type time: str
+        :param status: the status of the Delivery
+        :type status: str
+        :param description: the description of the Delivery
+        :type description: str
         """
+        self.__id = id
         self.__buyer = buyer
-        self.__deliver_id = deliver_id
         self.__date = date
-    
+
+    @property
+    def id(self) -> int:
+        """
+        Getter for the id of the Delivery
+        :return: the id of the Delivery
+        :rtype: int
+        """
+        return self.__id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        """
+        Setter for the id of the Delivery
+        :param id: the new id of the Delivery
+        :type id: int
+        :return: None
+        """
+        self.__id = id
+
     @property
     def buyer(self) -> Person:
         """
-        Getter of the buyer
-        :return: the buyer of the delivery
+        Getter for the buyer of the Delivery
+        :return: the buyer of the Delivery
         :rtype: Person
         """
         return self.__buyer
-    
+
     @buyer.setter
     def buyer(self, buyer: Person) -> None:
         """
-        Setter of the buyer
-        :param buyer: the buyer of the delivery
+        Setter for the buyer of the Delivery
+        :param buyer: the new buyer of the Delivery
         :type buyer: Person
+        :return: None
         """
         self.__buyer = buyer
 
     @property
-    def deliver_id(self) -> int:
+    def date(self) -> date:
         """
-        Getter of the id
-        :return: the id of the delivery
-        :rtype: int
-        """
-        return self.__deliver_id
-    
-    @deliver_id.setter
-    def deliver_id(self, deliver_id: int) -> None:
-        """
-        Setter of the id
-        :param deliver_id: the id of the delivery
-        :type deliver_id: int
-        """
-        self.__deliver_id = deliver_id
-
-    @property
-    def date(self) -> str:
-        """
-        Getter of the date
-        :return: the date of the delivery
-        :rtype: str
+        Getter for the date of the Delivery
+        :return: the date of the Delivery
+        :rtype: date
         """
         return self.__date
-    
+
     @date.setter
-    def date(self, date: str) -> None:
+    def date(self, date: date) -> None:
         """
-        Setter of the date
-        :param date: the date of the delivery
-        :type date: str
+        Setter for the date of the Delivery
+        :param date: the new date of the Delivery
+        :type date: date
+        :return: None
         """
         self.__date = date
 
     def __str__(self) -> str:
         """
-        Method that returns the string representation of the object
-        :return: the string representation of the object
+        String representation of the Delivery
+        :return: the string representation of the Delivery
         :rtype: str
         """
-        return f'Delivery: {self.deliver_id}, {self.date}, {self.buyer}'
-    
+        return {"id": self.__id,
+                "buyer": self.__buyer,
+                "date": self.__date}
+
     def __eq__(self, other: object) -> bool:
         """
-        Method that compares two objects
-        :param other: the other object
-        :type other: object
-        :return: True if the objects are equal, False otherwise
+        Equal operator for the Delivery
+        :param other: the other Delivery
+        :type other: Delivery
+        :return: True if the Deliveries are equal, False otherwise
         :rtype: bool
         """
         if isinstance(other, Delivery):
-            return (self.deliver_id == other.deliver_id and 
-                    self.date == other.date and self.buyer == other.buyer)
+            return self.__id == other.id and \
+                self.__buyer == other.buyer and \
+                self.__date == other.date
         return False
+
+
+if __name__ == '__main__':
+    buyer = Person(1, 'name', 'last_name', 'phone', 'mail')
+    delivery = Delivery(1, buyer.__str__(), date.today())
+    print(delivery.__str__())
+    delivery2 = Delivery(1, buyer.__str__(), date.today())
+
+    if delivery == delivery2:
+        print('delivery1 == delivery2')
+    else:
+        print('delivery1 != delivery2')

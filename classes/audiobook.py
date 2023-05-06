@@ -1,16 +1,22 @@
-from classes.edoc import Edoc
+from classes.edocument import EDocument
 from datetime import date
 
-class AudioBook(Edoc):
+class AudioBook(EDocument):
     """
     A class that represents an audio book
     """
-    def __init__(self, id: int = 0, author: str = 'author',
-                title: str = 'title', price: float = 0.1,
-                topic: str = 'topic', language: str = 'esp',
-                pub_date: date = date.today(), size: float = 0.1, doi: str = 'doi',
-                hours: int = 1, minutes: int = 1, seconds: int = 1, 
-                synopsis: str = 'synopsis') -> object:
+    def __init__(self,
+                 id: int = 0,
+                 author: str = 'author',
+                 title: str = 'title',
+                 price: float = 0.1,
+                 topic: str = 'topic',
+                 language: str = 'lang',
+                 pub_date: date = date.today(),
+                 size: float = 0.1,
+                 doi: str = 'doi',
+                 duration: int = 1,
+                 synopsis: str = 'synopsis') -> object:
         """
         Constructor of the class
         :param id: the id of the audio book
@@ -21,146 +27,48 @@ class AudioBook(Edoc):
         :type title: str
         :param price: the price of the audio book
         :type price: float
-        :param topi: the topic of the audio book
-        :type topi: str
+        :param topic: the topic of the audio book
+        :type topic: str
         :param language: the language of the audio book
         :type language: str
         :param pub_date: the publication date of the audio book
-        :type pub_date: str
+        :type pub_date: date
         :param size: the size of the audio book
         :type size: float
         :param doi: the doi of the audio book
         :type doi: str
-        :param hours: the hours of the audio book
-        :type hours: int
-        :param minutes: the minutes of the audio book
-        :type minutes: int
-        :param seconds: the seconds of the audio book
-        :type seconds: int
+        :param duration: the duration of the audio book (in seconds)
+        :type duration: int
         :param synopsis: the synopsis of the audio book
         :type synopsis: str
         """
-        super().__init__(id, author, title, price, topic, language)
-        self.__pub_date = pub_date
-        self.__size = size
-        self.__doi = doi
-        self.__hours = hours
-        self.__minutes = minutes
-        self.__seconds = seconds
+        super().__init__(id, author, title, price, topic, language, pub_date, size, doi)
+        self.__duration = duration
         self.__synopsis = synopsis
 
     @property
-    def pub_date(self) -> date:
+    def duration(self) -> int:
         """
-        Getter of the publication date
-        :return: the publication date of the audio book
-        :rtype: date
-        """
-        return self.__pub_date
-    
-    @pub_date.setter
-    def pub_date(self, pub_date: date) -> None:
-        """
-        Setter of the publication date
-        :param pub_date: the publication date of the audio book
-        :type pub_date: date
-        """
-        self.__pub_date = pub_date
-
-    @property
-    def size(self) -> float:
-        """
-        Getter of the size
-        :return: the size of the audio book
-        :rtype: float
-        """
-        return self.__size
-    
-    @size.setter
-    def size(self, size: float) -> None:
-        """
-        Setter of the size
-        :param size: the size of the audio book
-        :type size: float
-        """
-        self.__size = size
-
-    @property
-    def doi(self) -> str:
-        """
-        Getter of the doi
-        :return: the doi of the audio book
-        :rtype: str
-        """
-        return self.__doi
-    
-    @doi.setter
-    def doi(self, doi: str) -> None:
-        """
-        Setter of the doi
-        :param doi: the doi of the audio book
-        :type doi: str
-        """
-        self.__doi = doi
-
-    @property
-    def hours(self) -> int:
-        """
-        Getter of the hours
-        :return: the hours of the audio book
+        Getter for the duration of the audio book
+        :return: the duration of the audio book
         :rtype: int
         """
-        return self.__hours
+        return self.__duration
     
-    @hours.setter
-    def hours(self, hours: int) -> None:
+    @duration.setter
+    def duration(self, duration: int) -> None:
         """
-        Setter of the hours
-        :param hours: the hours of the audio book
-        :type hours: int
+        Setter for the duration of the audio book
+        :param duration: the new duration of the audio book
+        :type duration: int
+        :return: None
         """
-        self.__hours = hours
-
-    @property
-    def minutes(self) -> int:
-        """
-        Getter of the minutes
-        :return: the minutes of the audio book
-        :rtype: int
-        """
-        return self.__minutes
-    
-    @minutes.setter
-    def minutes(self, minutes: int) -> None:
-        """
-        Setter of the minutes
-        :param minutes: the minutes of the audio book
-        :type minutes: int
-        """
-        self.__minutes = minutes
-
-    @property
-    def seconds(self) -> int:
-        """
-        Getter of the seconds
-        :return: the seconds of the audio book
-        :rtype: int
-        """
-        return self.__seconds
-    
-    @seconds.setter
-    def seconds(self, seconds: int) -> None:
-        """
-        Setter of the seconds
-        :param seconds: the seconds of the audio book
-        :type seconds: int
-        """
-        self.__seconds = seconds
+        self.__duration = duration
 
     @property
     def synopsis(self) -> str:
         """
-        Getter of the synopsis
+        Getter for the synopsis of the audio book
         :return: the synopsis of the audio book
         :rtype: str
         """
@@ -169,20 +77,30 @@ class AudioBook(Edoc):
     @synopsis.setter
     def synopsis(self, synopsis: str) -> None:
         """
-        Setter of the synopsis
-        :param synopsis: the synopsis of the audio book
+        Setter for the synopsis of the audio book
+        :param synopsis: the new synopsis of the audio book
         :type synopsis: str
+        :return: None
         """
         self.__synopsis = synopsis
 
     def __str__(self) -> str:
         """
-        String representation of the class
-        :return: the string representation of the class
+        String representation of the audio book
+        :return: the string representation of the audio book
         :rtype: str
         """
-        #return in JSON format
-        return {"id": self.id, "author": self.author, "title": self.title, "price": self.price, "topic": self.topic, "language": self.language, "pub_date": self.pub_date, "size": self.size, "doi": self.doi, "hours": self.hours, "minutes": self.minutes, "seconds": self.seconds, "synopsis": self.synopsis}    
+        return {"id": self.id,
+                "author": self.author,
+                "title": self.title,
+                "price": self.price,
+                "topic": self.topic,
+                "language": self.language,
+                "pub_date": self.pub_date.strftime("%Y/%m/%d"),
+                "size": self.size,
+                "doi": self.doi,
+                "duration": self.duration,
+                "synopsis": self.synopsis}
     
     def __eq__(self, other: object) -> bool:
         """
@@ -193,5 +111,34 @@ class AudioBook(Edoc):
         :rtype: bool
         """
         if isinstance(other, AudioBook):
-            return self.id == other.id and self.author == other.author and self.title == other.title and self.price == other.price and self.topic == other.topic and self.language == other.language and self.pub_date == other.pub_date and self.size == other.size and self.doi == other.doi and self.hours == other.hours and self.minutes == other.minutes and self.seconds == other.seconds and self.synopsis == other.synopsis
+            return self.id == other.id and \
+                   self.author == other.author and \
+                   self.title == other.title and \
+                   self.price == other.price and \
+                   self.topic == other.topic and \
+                   self.language == other.language and \
+                   self.pub_date == other.pub_date and \
+                   self.size == other.size and \
+                   self.doi == other.doi and \
+                   self.duration == other.duration and \
+                   self.synopsis == other.synopsis
         return False
+    
+if __name__ == "__main__":
+    audio_book = AudioBook(1, 'author', 'title', 0.1, 'topic', 'lang', date.today(), 0.1, 'doi', 1, 'synopsis')
+    assert audio_book.id == 1
+    assert audio_book.author == 'author'
+    assert audio_book.title == 'title'
+    assert audio_book.price == 0.1
+    assert audio_book.topic == 'topic'
+    assert audio_book.language == 'lang'
+    assert audio_book.pub_date == date.today()
+    assert audio_book.size == 0.1
+    assert audio_book.doi == 'doi'
+    assert audio_book.duration == 1
+    assert audio_book.synopsis == 'synopsis'
+
+    print(audio_book.__str__())
+
+    audio_book2 = AudioBook(1, 'author', 'title', 0.1, 'topic', 'lang', date.today(), 0.1, 'doi', 1, 'synopsis')
+    print("audio_book == audio_book2") if audio_book == audio_book2 else print("audio_book != audio_book2")

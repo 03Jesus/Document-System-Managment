@@ -1,28 +1,38 @@
-from classes.document import Document
+import json
+from datetime import date
+from document import Document
+
 
 class Lease(object):
     """
-    A class that represents a lease
+    A class that represents a Lease
     """
-    def __init__(self, lease_id: int = 0, start_date: str = 'start_date',
-                finish_date: str = 'finish_date', pay_method: str = 'pay_method',
-                total_price: float = 0.1, items: list = [Document()]) -> object:
+
+    def __init__(self,
+                 id: int = 0,
+                 start_date: date = date.today(),
+                 finish_date: date = date(date.today().year,
+                                          date.today().month+1,
+                                          31),
+                 pay_method: str = 'pay_method',
+                 total_price: float = 0.1,
+                 items: list = [Document()]) -> object:
         """
         Constructor of the class
-        :param lease_id: the id of the lease
-        :type lease_id: int
-        :param start_date: the start date of the lease
-        :type start_date: str
-        :param finish_date: the finish date of the lease
-        :type finish_date: str
-        :param pay_method: the pay method of the lease
+        :param id: the id of the Lease
+        :type id: int
+        :param start_date: the start_date of the Lease
+        :type start_date: date
+        :param finish_date: the finish_date of the Lease
+        :type finish_date: date
+        :param pay_method: the pay_method of the Lease
         :type pay_method: str
-        :param total_price: the total price of the lease
+        :param total_price: the total_price of the Lease
         :type total_price: float
-        :param items: the items of the lease
+        :param items: the items of the Lease
         :type items: list
         """
-        self.__lease_id = lease_id
+        self.__id = id
         self.__start_date = start_date
         self.__finish_date = finish_date
         self.__pay_method = pay_method
@@ -30,148 +40,170 @@ class Lease(object):
         self.__items = items
 
     @property
-    def lease_id(self) -> int:
+    def id(self) -> int:
         """
-        Getter of the id
-        :return: the id of the lease
+        Getter for the id of the Lease
+        :return: the id of the Lease
         :rtype: int
         """
-        return self.__lease_id
-    
-    @lease_id.setter
-    def lease_id(self, lease_id: int) -> None:
+        return self.__id
+
+    @id.setter
+    def id(self, id: int) -> None:
         """
-        Setter of the id
-        :param lease_id: the id of the lease
-        :type lease_id: int
+        Setter for the id of the Lease
+        :param id: the new id of the Lease
+        :type id: int
+        :return: None
         """
-        self.__lease_id = lease_id
+        self.__id = id
 
     @property
-    def start_date(self) -> str:
+    def start_date(self) -> date:
         """
-        Getter of the start date
-        :return: the start date of the lease
-        :rtype: str
+        Getter for the start_date of the Lease
+        :return: the start_date of the Lease
+        :rtype: date
         """
         return self.__start_date
-    
+
     @start_date.setter
-    def start_date(self, start_date: str) -> None:
+    def start_date(self, start_date: date) -> None:
         """
-        Setter of the start date
-        :param start_date: the start date of the lease
-        :type start_date: str
+        Setter for the start_date of the Lease
+        :param start_date: the new start_date of the Lease
+        :type start_date: date
+        :return: None
         """
         self.__start_date = start_date
 
     @property
-    def finish_date(self) -> str:
+    def finish_date(self) -> date:
         """
-        Getter of the finish date
-        :return: the finish date of the lease
-        :rtype: str
+        Getter for the finish_date of the Lease
+        :return: the finish_date of the Lease
+        :rtype: date
         """
         return self.__finish_date
-    
+
     @finish_date.setter
-    def finish_date(self, finish_date: str) -> None:
+    def finish_date(self, finish_date: date) -> None:
         """
-        Setter of the finish date
-        :param finish_date: the finish date of the lease
-        :type finish_date: str
+        Setter for the finish_date of the Lease
+        :param finish_date: the new finish_date of the Lease
+        :type finish_date: date
+        :return: None
         """
         self.__finish_date = finish_date
 
     @property
     def pay_method(self) -> str:
         """
-        Getter of the pay method
-        :return: the pay method of the lease
+        Getter for the pay_method of the Lease
+        :return: the pay_method of the Lease
         :rtype: str
         """
         return self.__pay_method
-    
+
     @pay_method.setter
     def pay_method(self, pay_method: str) -> None:
         """
-        Setter of the pay method
-        :param pay_method: the pay method of the lease
+        Setter for the pay_method of the Lease
+        :param pay_method: the new pay_method of the Lease
         :type pay_method: str
+        :return: None
         """
         self.__pay_method = pay_method
 
     @property
     def total_price(self) -> float:
         """
-        Getter of the total price
-        :return: the total price of the lease
+        Getter for the total_price of the Lease
+        :return: the total_price of the Lease
         :rtype: float
         """
         return self.__total_price
-    
+
     @total_price.setter
     def total_price(self, total_price: float) -> None:
         """
-        Setter of the total price
-        :param total_price: the total price of the lease
+        Setter for the total_price of the Lease
+        :param total_price: the new total_price of the Lease
         :type total_price: float
+        :return: None
         """
         self.__total_price = total_price
 
     @property
     def items(self) -> list:
         """
-        Getter of the items
-        :return: the items of the lease
+        Getter for the items of the Lease
+        :return: the items of the Lease
         :rtype: list
         """
         return self.__items
-    
+
     @items.setter
     def items(self, items: list) -> None:
         """
-        Setter of the items
-        :param items: the items of the lease
+        Setter for the items of the Lease
+        :param items: the new items of the Lease
         :type items: list
+        :return: None
         """
         self.__items = items
 
-    def genPaycheck(self) -> None:
-        """
-        Generates a paycheck
-        """
-        print('Generating paycheck')
-
-    def genDelivery(self) -> None:
-        """
-        Generates a delivery
-        """
-        print('Generating delivery')
-
     def __str__(self) -> str:
         """
-        Converts the object to string
-        :return: the string
+        String representation of the Lease
+        :return: the string representation of the Lease
         :rtype: str
         """
-        return (f'Lease: {self.__lease_id}, {self.__start_date}, '
-                f'{self.__finish_date}, {self.__pay_method}, '
-                f'{self.__total_price}, {self.__items}')
-    
+        return {"id": self.__id,
+                "start_date": self.__start_date,
+                "finish_date": self.__finish_date,
+                "pay_method": self.__pay_method,
+                "total_price": self.__total_price,
+                "items": self.__items}
+
     def __eq__(self, other: object) -> bool:
         """
-        Checks if two objects are equal
-        :param other: the other object
+        Equal operator for the Lease
+        :param other: the other Lease
         :type other: object
-        :return: True if they are equal, False otherwise
+        :return: True if the Leases are equal, False otherwise
         :rtype: bool
         """
         if isinstance(other, Lease):
-            return (self.__lease_id == other.lease_id and
-                    self.__start_date == other.start_date and
-                    self.__finish_date == other.finish_date and
-                    self.__pay_method == other.pay_method and
-                    self.__total_price == other.total_price and
-                    self.__items == other.items)
+            return self.__id == other.__id and \
+                self.__start_date == other.__start_date and \
+                self.__finish_date == other.__finish_date and \
+                self.__pay_method == other.__pay_method and \
+                self.__total_price == other.__total_price and \
+                self.__items == other.__items
         return False
+
+
+if __name__ == "__main__":
+    doc1 = Document(1, "author", "doc1", 1.0, "fantasy", 'esp')
+
+    lease1 = Lease(1,
+                   date.today(),
+                   date(date.today().year,
+                        date.today().month+1,
+                        31),
+                   "cash",
+                   1.0,
+                   [doc1.__str__()])
+    lease2 = Lease(1,
+                   date.today(),
+                   date(date.today().year,
+                        date.today().month+1,
+                        31),
+                   "cash",
+                   1.0,
+                   [doc1.__str__()])
+
+    print(lease1.__str__())
+
+    print("Lease1 == Lease2") if lease1 == lease2 else print("Lease1 != Lease2")

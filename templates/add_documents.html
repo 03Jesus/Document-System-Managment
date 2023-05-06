@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,6 +15,10 @@
         <label for="ebook">EBook</label><br>
         <input type="radio" id="audiobook" name="document_type" value="audiobook">
         <label for="audiobook">Audiobook</label><br>
+        <input type="radio" id="invbook" name="document_type" value="invbook">
+        <label for="invbook">InvBook</label><br>
+        <input type="radio" id="magazine" name="document_type" value="magazine">
+        <label for="magazine">Magazine</label><br>
 
         <div id="required_fields">
             <!-- id, author, title, price, topic, language -->
@@ -27,13 +31,32 @@
             <label for="topic">Topic:</label><br>
             <input type="text" id="topic" name="topic"><br>
             <label for="language">Language:</label><br>
-            <input type="text" id="language" name="language"><br>
+            <!-- The user can select de language -->
+            <select name="language" id="language">
+            {% for code, name in languages.items() %}
+                <option value="{{ code }}">{{ name.capitalize() }}</option>
+            {% endfor %}
+            </select><br>
+            <label for="pub_date">Publication Date:</label><br>
+            <input type="date" id="pub_date" name="pub_date"><br>
+        </div>
+
+        <div id="electronic_documents_required_fields" style="display:none">
+            <!-- Size, DOI -->
+            <label for="size">Size:</label><br>
+            <input type="number" id="size" name="size"><br>
+            <label for="doi">DOI:</label><br>
+            <input type="text" id="doi" name="doi"><br>
+        </div>
+
+        <div id="physic_documents_required_fields" style="display:none">
+            <!-- publisher -->
+            <label for="publisher">Publisher:</label><br>
+            <input type="text" id="publisher" name="publisher"><br>
         </div>
 
         <div id="book_required_fields" style="display:none">
             <!-- publisher, editor, pages, synopsis, presentation -->
-            <label for="publisher">Publisher:</label><br>
-            <input type="text" id="publisher" name="publisher"><br>
             <label for="editor">Editor:</label><br>
             <input type="text" id="book_editor" name=""><br>
             <label for="pages">Pages:</label><br>
@@ -46,12 +69,6 @@
 
         <div id="ebook_required_fields" style="display:none">
             <!-- pub_date, size, doi, editor, pages, synopsis -->
-            <label for="pub_date">Publication Date:</label><br>
-            <input type="date" id="ebook_pub_date" name=""><br>
-            <label for="size">Size:</label><br>
-            <input type="number" id="size" name="size"><br>
-            <label for="doi">DOI:</label><br>
-            <input type="text" id="doi" name="doi"><br>
             <label for="editor">Editor:</label><br>
             <input type="text" id="ebook_editor" name=""><br>
             <label for="pages">Pages:</label><br>
@@ -62,21 +79,26 @@
 
         <div id="audiobook_required_fields" style="display:none">
             <!-- pub_date, size, doi, hours, minutes, seconds, synopsis -->
-            <label for="pub_date">Publication Date:</label><br>
-            <input type="date" id="audiobook_pub_date" name=""><br>
-            <label for="size">Size:</label><br>
-            <input type="number" id="size" name="size"><br>
-            <label for="doi">DOI:</label><br>
-            <input type="text" id="doi" name="doi"><br>
-            <label for="hours">Hours:</label><br>
-            <input type="number" id="hours" name="hours"><br>
-            <label for="minutes">Minutes:</label><br>
-            <input type="number" id="minutes" name="minutes"><br>
-            <label for="seconds">Seconds:</label><br>
-            <input type="number" id="seconds" name="seconds"><br>
+            <label for="duration">Duration (in seconds):</label><br>
+            <input type="number" id="duration" name="duration"><br>
             <label for="synopsis">Synopsis:</label><br>
             <input type="text" id="audiobook_synopsis" name=""><br>
+        </div>
 
+        <div id="invbook_required_fields" style="display:none">
+            <!-- size, doi, pages, abstract -->
+            <label for="pages">Pages:</label><br>
+            <input type="number" id="invbook_pages" name=""><br>
+            <label for="abstract">Abstract:</label><br>
+            <input type="text" id="abstract" name="abstract"><br>
+        </div>
+
+        <div id="magazine_required_fields" style="display:none">
+            <!-- edition, pages  -->
+            <label for="edition">Edition:</label><br>
+            <input type="number" id="edition" name="edition"><br>
+            <label for="pages">Pages:</label><br>
+            <input type="number" id="magazine_pages" name=""><br>
         </div>
 
         <input type="submit" id="submit-btn" value="Add Document">
@@ -92,9 +114,13 @@
     const submitBtn = document.getElementById('submit-btn');
     //If the user click on Book show the book required fields else hide them and show the ebook required fields
     document.getElementById("book").addEventListener("click", function(){
+        document.getElementById("physic_documents_required_fields").style.display = "block";
         document.getElementById("book_required_fields").style.display = "block";
+        document.getElementById("electronic_documents_required_fields").style.display = "none";
         document.getElementById("ebook_required_fields").style.display = "none";
         document.getElementById("audiobook_required_fields").style.display = "none";
+        document.getElementById("invbook_required_fields").style.display = "none";
+        document.getElementById("magazine_required_fields").style.display = "none";
         document.getElementById("book_editor").setAttribute("name", "editor");
         document.getElementById("book_pages").setAttribute("name", "pages");
         document.getElementById("book_synopsis").setAttribute("name", "synopsis");
@@ -102,33 +128,71 @@
         document.getElementById("ebook_pages").setAttribute("name", "");
         document.getElementById("ebook_synopsis").setAttribute("name", "");
         document.getElementById("audiobook_synopsis").setAttribute("name", "");
+        document.getElementById("invbook_pages").setAttribute("name", "");
         submitBtn.value = 'Add Book';
     });
     document.getElementById("ebook").addEventListener("click", function(){
+        document.getElementById("physic_documents_required_fields").style.display = "none";
         document.getElementById("book_required_fields").style.display = "none";
+        document.getElementById("electronic_documents_required_fields").style.display = "block";
         document.getElementById("ebook_required_fields").style.display = "block";
         document.getElementById("audiobook_required_fields").style.display = "none";
-        document.getElementById("ebook_editor").setAttribute("name", "editor");
-        document.getElementById("ebook_pages").setAttribute("name", "pages");
-        document.getElementById("ebook_synopsis").setAttribute("name", "synopsis");
-        document.getElementById("ebook_pub_date").setAttribute("name", "pub_date");
+        document.getElementById("invbook_required_fields").style.display = "none";
+        document.getElementById("magazine_required_fields").style.display = "none";
         document.getElementById("book_editor").setAttribute("name", "");
         document.getElementById("book_pages").setAttribute("name", "");
         document.getElementById("book_synopsis").setAttribute("name", "");
+        document.getElementById("ebook_editor").setAttribute("name", "editor");
+        document.getElementById("ebook_pages").setAttribute("name", "pages");
+        document.getElementById("ebook_synopsis").setAttribute("name", "synopsis");
         document.getElementById("audiobook_synopsis").setAttribute("name", "");
-        document.getElementById("audiobook_pub_date").setAttribute("name", "");
+        document.getElementById("invbook_pages").setAttribute("name", "");
         submitBtn.value = 'Add EBook';
     });
     document.getElementById("audiobook").addEventListener("click", function(){
+        document.getElementById("physic_documents_required_fields").style.display = "none";
         document.getElementById("book_required_fields").style.display = "none";
+        document.getElementById("electronic_documents_required_fields").style.display = "block";
         document.getElementById("ebook_required_fields").style.display = "none";
         document.getElementById("audiobook_required_fields").style.display = "block";
+        document.getElementById("invbook_required_fields").style.display = "none";
+        document.getElementById("magazine_required_fields").style.display = "none";
+        document.getElementById("book_editor").setAttribute("name", "");
+        document.getElementById("book_pages").setAttribute("name", "");
         document.getElementById("book_synopsis").setAttribute("name", "");
+        document.getElementById("ebook_editor").setAttribute("name", "");
+        document.getElementById("ebook_pages").setAttribute("name", "");
         document.getElementById("ebook_synopsis").setAttribute("name", "");
         document.getElementById("audiobook_synopsis").setAttribute("name", "synopsis");
-        document.getElementById("audiobook_pub_date").setAttribute("name", "pub_date");
-        document.getElementById("ebook_editor").setAttribute("name", "");
+        document.getElementById("invbook_pages").setAttribute("name", "");
         submitBtn.value = 'Add AudioBook';
+    });
+    document.getElementById("invbook").addEventListener("click", function(){
+        document.getElementById("physic_documents_required_fields").style.display = "none";
+        document.getElementById("book_required_fields").style.display = "none";
+        document.getElementById("electronic_documents_required_fields").style.display = "block";
+        document.getElementById("ebook_required_fields").style.display = "none";
+        document.getElementById("audiobook_required_fields").style.display = "none";
+        document.getElementById("invbook_required_fields").style.display = "block";
+        document.getElementById("magazine_required_fields").style.display = "none";
+        document.getElementById("book_pages").setAttribute("name", "");
+        document.getElementById("ebook_pages").setAttribute("name", "");
+        document.getElementById("invbook_pages").setAttribute("name", "pages");
+        submitBtn.value = 'Add Inverted Book';
+    });
+    document.getElementById("magazine").addEventListener("click", function(){
+        document.getElementById("physic_documents_required_fields").style.display = "none";
+        document.getElementById("book_required_fields").style.display = "none";
+        document.getElementById("electronic_documents_required_fields").style.display = "block";
+        document.getElementById("ebook_required_fields").style.display = "none";
+        document.getElementById("audiobook_required_fields").style.display = "none";
+        document.getElementById("invbook_required_fields").style.display = "none";
+        document.getElementById("magazine_required_fields").style.display = "block";
+        document.getElementById("magazine_pages").setAttribute("name", "pages");
+        document.getElementById("book_pages").setAttribute("name", "");
+        document.getElementById("ebook_pages").setAttribute("name", "");
+        document.getElementById("invbook_pages").setAttribute("name", "");
+        submitBtn.value = 'Add Magazine';
     });
 
 </script>
